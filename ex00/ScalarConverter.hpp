@@ -6,7 +6,7 @@
 /*   By: jcummins <jcummins@student.42prague.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:44:19 by jcummins          #+#    #+#             */
-/*   Updated: 2024/11/22 15:00:26 by jcummins         ###   ########.fr       */
+/*   Updated: 2024/11/22 19:38:20 by jcummins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,30 @@
 # define SCALARCONVERTER_H
 
 # include <iostream>
+# include <algorithm>
+# include <iterator>
 # include <string>
 # include <iomanip>
 # include <stdlib.h>
 # include <math.h>
+# include <limits.h>
 
 typedef enum s_input_type {
 	INPUT_INVALID = 0,
 	INPUT_INTEGER,
-	INPUT_FLOAT
+	INPUT_FLOAT,
+	INPUT_PSEUDO
 }			e_input_type;
 
 class	ScalarConverter
 {
 	public:
+		static int convert( const std::string input );
+	private:
 		ScalarConverter	( void );
 		ScalarConverter	( const ScalarConverter &other );
 		ScalarConverter	&operator=( const ScalarConverter &other );
 		~ScalarConverter	( void );
-
-		static int convert( const std::string input );
-	private:
 } ;
 
 #endif
