@@ -6,7 +6,7 @@
 /*   By: jcummins <jcummins@student.42prague.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:44:19 by jcummins          #+#    #+#             */
-/*   Updated: 2024/11/22 13:19:09 by jcummins         ###   ########.fr       */
+/*   Updated: 2024/11/22 15:00:26 by jcummins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@
 # include <string>
 # include <iomanip>
 # include <stdlib.h>
+# include <math.h>
+
+typedef enum s_input_type {
+	INPUT_INVALID = 0,
+	INPUT_INTEGER,
+	INPUT_FLOAT
+}			e_input_type;
 
 class	ScalarConverter
 {
