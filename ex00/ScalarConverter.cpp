@@ -6,7 +6,7 @@
 /*   By: jcummins <jcummins@student.42prague.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:43:14 by jcummins          #+#    #+#             */
-/*   Updated: 2024/11/26 20:03:00 by jcummins         ###   ########.fr       */
+/*   Updated: 2024/11/26 20:06:53 by jcummins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ static bool isSign( const char c ) {
 
 static bool beyondIntBounds( const double input ) {
 	if (input > INT_MAX) {
-		std::cout << "int:\ttoo large to display" << std::endl;
+		std::cout << "int:\tabove range" << std::endl;
 		return (true);
 	}
 	if (input < INT_MIN) {
-		std::cout << "int:\ttoo low to display" << std::endl;
+		std::cout << "int:\tbelow range" << std::endl;
 		return (true);
 	}
 	return (false);
@@ -50,22 +50,19 @@ static bool beyondCharBounds( const double input ) {
 		std::cout << "char:\timpossible" << std::endl;
 		return (true);
 	}
-	if (input > 128) {
-		std::cout << "char:\ttoo large to display" << std::endl;
+	if (input > 127) {
+		std::cout << "char:\tabove range" << std::endl;
 		return (true);
 	}
 	if (input < 33) {
-		std::cout << "char:\ttoo low to display" << std::endl;
+		std::cout << "char:\tbelow range" << std::endl;
 		return (true);
 	}
 	return (false);
 }
 
 static void printCharConversion( long int i ) {
-	if ( i < 32 || i > 127)
-		std::cout << "char:\tNon displayable" << std::endl;
-	else
-		std::cout << "char:\t'" << static_cast<unsigned char> (i) << "'" << std::endl;
+	std::cout << "char:\t'" << static_cast<unsigned char> (i) << "'" << std::endl;
 }
 
 static void printIntConversion( long int i ) {
