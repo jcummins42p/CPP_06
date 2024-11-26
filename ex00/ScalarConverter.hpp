@@ -6,7 +6,7 @@
 /*   By: jcummins <jcummins@student.42prague.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:44:19 by jcummins          #+#    #+#             */
-/*   Updated: 2024/11/22 19:38:20 by jcummins         ###   ########.fr       */
+/*   Updated: 2024/11/26 19:20:49 by jcummins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef enum s_input_type {
 	INPUT_INVALID = 0,
 	INPUT_INTEGER,
 	INPUT_FLOAT,
+	INPUT_DOUBLE,
 	INPUT_PSEUDO
 }			e_input_type;
 
