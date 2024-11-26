@@ -6,7 +6,7 @@
 /*   By: jcummins <jcummins@student.42prague.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:43:14 by jcummins          #+#    #+#             */
-/*   Updated: 2024/11/26 19:50:52 by jcummins         ###   ########.fr       */
+/*   Updated: 2024/11/26 20:03:00 by jcummins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,22 @@ static bool beyondIntBounds( const double input ) {
 	return (false);
 }
 
+static bool beyondCharBounds( const double input ) {
+	if (floor(input) != input) {
+		std::cout << "char:\timpossible" << std::endl;
+		return (true);
+	}
+	if (input > 128) {
+		std::cout << "char:\ttoo large to display" << std::endl;
+		return (true);
+	}
+	if (input < 33) {
+		std::cout << "char:\ttoo low to display" << std::endl;
+		return (true);
+	}
+	return (false);
+}
+
 static void printCharConversion( long int i ) {
 	if ( i < 32 || i > 127)
 		std::cout << "char:\tNon displayable" << std::endl;
@@ -68,7 +84,8 @@ static void printDoubleConversion( double i ) {
 }
 
 static int handleIntegerConversions( const int input ) {
-	printCharConversion(static_cast<unsigned char>(input));
+	if (!beyondCharBounds(input))
+		printCharConversion(static_cast<unsigned char>(input));
 	printIntConversion(input);
 	printFloatConversion(static_cast<float>(input));
 	printDoubleConversion(static_cast<double>(input));
@@ -76,7 +93,8 @@ static int handleIntegerConversions( const int input ) {
 }
 
 static int handleCharConversions( const unsigned char input ) {
-	printCharConversion(input);
+	if (!beyondCharBounds(input))
+		printCharConversion(input);
 	printIntConversion(static_cast<int>(input));
 	printFloatConversion(static_cast<float>(input));
 	printDoubleConversion(static_cast<double>(input));
@@ -84,9 +102,7 @@ static int handleCharConversions( const unsigned char input ) {
 }
 
 static int handleFloatConversions( const float input ) {
-	if (floor(input) != input)
-		std::cout << "char:\timpossible" << std::endl;
-	else
+	if (!beyondCharBounds(input))
 		printCharConversion(static_cast<unsigned char>(input));
 	if (!beyondIntBounds(input))
 		printIntConversion(static_cast<int>(input));
@@ -96,9 +112,7 @@ static int handleFloatConversions( const float input ) {
 }
 
 static int handleDoubleConversions( const double input ) {
-	if (floor(input) != input)
-		std::cout << "char:\timpossible" << std::endl;
-	else
+	if (!beyondCharBounds(input))
 		printCharConversion(static_cast<unsigned char>(input));
 	printIntConversion(static_cast<int>(input));
 	printFloatConversion(static_cast<float>(input));
