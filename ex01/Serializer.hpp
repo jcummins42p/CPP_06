@@ -6,7 +6,7 @@
 /*   By: jcummins <jcummins@student.42prague.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:44:19 by jcummins          #+#    #+#             */
-/*   Updated: 2024/11/22 20:52:51 by jcummins         ###   ########.fr       */
+/*   Updated: 2024/11/27 12:43:26 by jcummins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,19 @@
 # define SERIALIZER_H
 
 # include <iostream>
+# include <stdint.h>
 
 typedef struct s_data {
-	std::string	name;
-	int			grade;
-	int			age;
-}	t_data;
+	char	name[10];
+	int		grade;
+	float	decimal;
+}	Data;
 
 class	Serializer
 {
 	public:
-		static uintptr_t serialize(Data *ptr);
-		static Data *deserialize(uintptr_t raw);
+		static uintptr_t 	serialize(Data *ptr);
+		static Data *		deserialize(uintptr_t raw);
 	private:
 		Serializer	( void );
 		Serializer	( const Serializer &other );
