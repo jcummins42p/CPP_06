@@ -6,7 +6,7 @@
 /*   By: jcummins <jcummins@student.42prague.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:43:14 by jcummins          #+#    #+#             */
-/*   Updated: 2024/11/26 20:06:53 by jcummins         ###   ########.fr       */
+/*   Updated: 2024/11/27 11:46:53 by jcummins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,13 @@ static bool beyondCharBounds( const double input ) {
 	return (false);
 }
 
-static void printCharConversion( long int i ) {
-	std::cout << "char:\t'" << static_cast<unsigned char> (i) << "'" << std::endl;
-}
-
 static void printIntConversion( long int i ) {
 	if (!beyondIntBounds(static_cast<double>(i)))
 		std::cout << "int:\t" << static_cast<int> (i) << std::endl;
+}
+
+static void printCharConversion( long int i ) {
+	std::cout << "char:\t'" << static_cast<unsigned char> (i) << "'" << std::endl;
 }
 
 static void printFloatConversion( float i) {
@@ -80,10 +80,18 @@ static void printDoubleConversion( double i ) {
 		<< "double:\t" << static_cast<double> (i) << std::endl;
 }
 
-static int handleIntegerConversions( const int input ) {
+static void handlePseudoConversions( const std::string input ) {
+	std::cout << "char:\timpossible" << std::endl
+		<< "int:\timpossible" << std::endl
+		<< "float:\t" << input << "f" << std::endl
+		<< "double:\t" << input << std::endl;
+}
+
+static int handleIntegerConversions( const long int input ) {
 	if (!beyondCharBounds(input))
 		printCharConversion(static_cast<unsigned char>(input));
-	printIntConversion(input);
+	if (!beyondIntBounds(input))
+		printIntConversion(input);
 	printFloatConversion(static_cast<float>(input));
 	printDoubleConversion(static_cast<double>(input));
 	return 0;
@@ -111,17 +119,11 @@ static int handleFloatConversions( const float input ) {
 static int handleDoubleConversions( const double input ) {
 	if (!beyondCharBounds(input))
 		printCharConversion(static_cast<unsigned char>(input));
-	printIntConversion(static_cast<int>(input));
+	if (!beyondIntBounds(input))
+		printIntConversion(static_cast<int>(input));
 	printFloatConversion(static_cast<float>(input));
 	printDoubleConversion(static_cast<double>(input));
 	return 0;
-}
-
-static void handlePseudoConversions( const std::string input ) {
-	std::cout << "char:\timpossible" << std::endl
-		<< "int:\timpossible" << std::endl
-		<< "float:\t" << input << "f" << std::endl
-		<< "double:\t" << input << std::endl;
 }
 
 static e_input_type inputTypeCheck( const std::string input ) {
@@ -181,7 +183,7 @@ static bool isCharLiteral( const std::string input ) {
 static int handleCharLiteral( const std::string input ) {
 	if (!isCharLiteral(input))
 		return 1;
-	std::cout << "Type unsigned char literal" << std::endl;
+	std::cout << "Type char literal" << std::endl;
 	return (handleCharConversions(input[1]));
 }
 
@@ -194,11 +196,11 @@ int ScalarConverter::convert( const std::string input ) {
 		case 1:
 			if (isdigit(input[0]))
 				return (multiCharHandle( input ));
-			handleCharConversions( input[0] );
-			return (0);
+			return (handleCharConversions( input[0] ));
 		case 3:
 			if (!handleCharLiteral(input))
 				return (0);
+			// fall through
 		default:
 			return (multiCharHandle( input ));
 	}
