@@ -6,7 +6,7 @@
 /*   By: jcummins <jcummins@student.42prague.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:44:19 by jcummins          #+#    #+#             */
-/*   Updated: 2024/11/26 19:20:49 by jcummins         ###   ########.fr       */
+/*   Updated: 2024/11/27 19:03:57 by jcummins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ typedef enum s_input_type {
 	INPUT_INTEGER,
 	INPUT_FLOAT,
 	INPUT_DOUBLE,
-	INPUT_PSEUDO
+	INPUT_PSEUDO,
+	INPUT_PSEUDO_F
 }			e_input_type;
 
 class	ScalarConverter

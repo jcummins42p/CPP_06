@@ -6,7 +6,7 @@
 /*   By: jcummins <jcummins@student.42prague.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:43:14 by jcummins          #+#    #+#             */
-/*   Updated: 2024/11/27 11:46:53 by jcummins         ###   ########.fr       */
+/*   Updated: 2024/11/27 20:04:50 by jcummins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,20 @@ static bool isSign( const char c ) {
 	return (false);
 }
 
-static bool beyondIntBounds( const double input ) {
+static int beyondIntBounds( const double input, e_input_type type) {
 	if (input > INT_MAX) {
 		std::cout << "int:\tabove range" << std::endl;
-		return (true);
+		return (1);
 	}
 	if (input < INT_MIN) {
 		std::cout << "int:\tbelow range" << std::endl;
-		return (true);
+		return (-1);
 	}
-	return (false);
+	if (type >= INPUT_PSEUDO && static_cast<int>(input) == INT_MIN) {
+		std::cout << "int:\tnan" << std::endl;
+		return (2);
+	}
+	return (0);
 }
 
 static bool beyondCharBounds( const double input ) {
@@ -50,11 +54,11 @@ static bool beyondCharBounds( const double input ) {
 		std::cout << "char:\timpossible" << std::endl;
 		return (true);
 	}
-	if (input > 127) {
+	if (input > 126) {
 		std::cout << "char:\tabove range" << std::endl;
 		return (true);
 	}
-	if (input < 33) {
+	if (input < 32) {
 		std::cout << "char:\tbelow range" << std::endl;
 		return (true);
 	}
@@ -62,36 +66,44 @@ static bool beyondCharBounds( const double input ) {
 }
 
 static void printIntConversion( long int i ) {
-	if (!beyondIntBounds(static_cast<double>(i)))
-		std::cout << "int:\t" << static_cast<int> (i) << std::endl;
+	std::cout << "int:\t" << (i) << std::endl;
 }
 
-static void printCharConversion( long int i ) {
-	std::cout << "char:\t'" << static_cast<unsigned char> (i) << "'" << std::endl;
+static void printCharConversion( unsigned char i ) {
+	std::cout << "char:\t'" << (i) << "'" << std::endl;
 }
 
 static void printFloatConversion( float i) {
 	std::cout << std::fixed << std::setprecision(4)
-		<< "float:\t" << static_cast<float> (i) << "f" << std::endl;
+		<< "float:\t" << (i) << "f" << std::endl;
 }
 
 static void printDoubleConversion( double i ) {
 	std::cout << std::fixed << std::setprecision(4)
-		<< "double:\t" << static_cast<double> (i) << std::endl;
+		<< "double:\t" << (i) << std::endl;
 }
 
-static void handlePseudoConversions( const std::string input ) {
-	std::cout << "char:\timpossible" << std::endl
-		<< "int:\timpossible" << std::endl
-		<< "float:\t" << input << "f" << std::endl
-		<< "double:\t" << input << std::endl;
-}
+//static void handlePseudoConversions( const std::string input ) {
+	//std::cout << "char:\timpossible" << std::endl
+		//<< "int:\timpossible" << std::endl
+		//<< "float:\t" << input << "f" << std::endl
+		//<< "double:\t" << input << std::endl;
+//}
+
+//static void handlePseudoFloatConversions( const std::string input ) {
+	//std::cout << "char:\timpossible" << std::endl
+		//<< "int:\timpossible" << std::endl
+		//<< "float:\t" << input << std::endl
+		//<< "double:\t" << input << std::endl;
+//}
 
 static int handleIntegerConversions( const long int input ) {
 	if (!beyondCharBounds(input))
 		printCharConversion(static_cast<unsigned char>(input));
-	if (!beyondIntBounds(input))
+	if (!beyondIntBounds(input, INPUT_INTEGER))
 		printIntConversion(input);
+	else
+
 	printFloatConversion(static_cast<float>(input));
 	printDoubleConversion(static_cast<double>(input));
 	return 0;
@@ -109,33 +121,41 @@ static int handleCharConversions( const unsigned char input ) {
 static int handleFloatConversions( const float input ) {
 	if (!beyondCharBounds(input))
 		printCharConversion(static_cast<unsigned char>(input));
-	if (!beyondIntBounds(input))
+	if (!beyondIntBounds(input, INPUT_FLOAT))
 		printIntConversion(static_cast<int>(input));
 	printFloatConversion(input);
 	printDoubleConversion(static_cast<double>(input));
 	return 0;
 }
 
-static int handleDoubleConversions( const double input ) {
+static int handleDoubleConversions( const double input, e_input_type type ) {
 	if (!beyondCharBounds(input))
 		printCharConversion(static_cast<unsigned char>(input));
-	if (!beyondIntBounds(input))
+	if (!beyondIntBounds(input, type))
 		printIntConversion(static_cast<int>(input));
 	printFloatConversion(static_cast<float>(input));
 	printDoubleConversion(static_cast<double>(input));
 	return 0;
 }
 
-static e_input_type inputTypeCheck( const std::string input ) {
-	e_input_type result = INPUT_INTEGER;
-	std::string pseudos[] = {"nan", "+inf", "-inf"};
+static e_input_type pseudoTypeCheck( const std::string &input ) {
+	std::string pseudos[] = {"nanf", "+inff", "-inff"};
 	int pseudos_size = sizeof(pseudos) / sizeof(pseudos[0]);
-	int i = 0;
 
-	if (std::find(pseudos, pseudos + pseudos_size, input) != pseudos + 3) {
-		std::cout << input << " is in literals list" << std::endl;
+	if (std::find(pseudos, pseudos + pseudos_size, input) != pseudos + 3)
+		return (INPUT_PSEUDO_F);
+	if (std::find(pseudos, pseudos + pseudos_size, input + "f") != pseudos + 3)
 		return (INPUT_PSEUDO);
-	}
+	return (INPUT_INTEGER);
+}
+
+static e_input_type inputTypeCheck( const std::string input )
+{
+	int i = 0;
+	e_input_type result = pseudoTypeCheck(input);
+
+	if (result >= INPUT_PSEUDO)
+		return (result);
 	if (!isSign(input[i]) && !isdigit(input[i]))
 		return (INPUT_INVALID);
 	while (++i < static_cast<int>(input.length())) {
@@ -156,11 +176,15 @@ static int	multiCharHandle( const std::string input ) {
 			return (1);
 		case INPUT_PSEUDO:
 			std::cout << "Type psuedo" << std::endl;
-			handlePseudoConversions(input);
+			handleDoubleConversions(static_cast<double>(atof(input.c_str())), INPUT_PSEUDO);
+			return (0);
+		case INPUT_PSEUDO_F:
+			std::cout << "Type psuedo float" << std::endl;
+			handleDoubleConversions(static_cast<float>(atof(input.c_str())), INPUT_PSEUDO);
 			return (0);
 		case INPUT_DOUBLE:
 			std::cout << "Type double" << std::endl;
-			handleDoubleConversions(static_cast<double>(atof(input.c_str())));
+			handleDoubleConversions(static_cast<double>(atof(input.c_str())), INPUT_DOUBLE);
 			return (0);
 		case INPUT_FLOAT:
 			std::cout << "Type float" << std::endl;
