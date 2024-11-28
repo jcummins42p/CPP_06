@@ -6,7 +6,7 @@
 /*   By: jcummins <jcummins@student.42prague.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:43:14 by jcummins          #+#    #+#             */
-/*   Updated: 2024/11/27 20:04:50 by jcummins         ###   ########.fr       */
+/*   Updated: 2024/11/28 11:53:58 by jcummins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,6 @@ static int handleIntegerConversions( const long int input ) {
 		printCharConversion(static_cast<unsigned char>(input));
 	if (!beyondIntBounds(input, INPUT_INTEGER))
 		printIntConversion(input);
-	else
-
 	printFloatConversion(static_cast<float>(input));
 	printDoubleConversion(static_cast<double>(input));
 	return 0;
@@ -175,23 +173,23 @@ static int	multiCharHandle( const std::string input ) {
 			std::cout << "Error: input is not a c++ literal" << std::endl;
 			return (1);
 		case INPUT_PSEUDO:
-			std::cout << "Type psuedo" << std::endl;
+			std::cout << "Type:\tpsuedo" << std::endl;
 			handleDoubleConversions(static_cast<double>(atof(input.c_str())), INPUT_PSEUDO);
 			return (0);
 		case INPUT_PSEUDO_F:
-			std::cout << "Type psuedo float" << std::endl;
+			std::cout << "Type:\tpsuedo float" << std::endl;
 			handleDoubleConversions(static_cast<float>(atof(input.c_str())), INPUT_PSEUDO);
 			return (0);
 		case INPUT_DOUBLE:
-			std::cout << "Type double" << std::endl;
+			std::cout << "Type:\tdouble" << std::endl;
 			handleDoubleConversions(static_cast<double>(atof(input.c_str())), INPUT_DOUBLE);
 			return (0);
 		case INPUT_FLOAT:
-			std::cout << "Type float" << std::endl;
+			std::cout << "Type:\tfloat" << std::endl;
 			handleFloatConversions(atof(input.c_str()));
 			return (0);
 		case INPUT_INTEGER:
-			std::cout << "Type integer" << std::endl;
+			std::cout << "Type:\tinteger" << std::endl;
 			handleIntegerConversions(atol(input.c_str()));
 			return (0);
 		default:
@@ -207,7 +205,7 @@ static bool isCharLiteral( const std::string input ) {
 static int handleCharLiteral( const std::string input ) {
 	if (!isCharLiteral(input))
 		return 1;
-	std::cout << "Type char literal" << std::endl;
+	std::cout << "Type:\tchar literal" << std::endl;
 	return (handleCharConversions(input[1]));
 }
 
