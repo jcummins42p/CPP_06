@@ -6,7 +6,7 @@
 /*   By: jcummins <jcummins@student.42prague.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:43:14 by jcummins          #+#    #+#             */
-/*   Updated: 2024/11/28 11:53:58 by jcummins         ###   ########.fr       */
+/*   Updated: 2024/11/28 12:42:41 by jcummins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int beyondIntBounds( const double input, e_input_type type) {
 		return (-1);
 	}
 	if (type >= INPUT_PSEUDO && static_cast<int>(input) == INT_MIN) {
-		std::cout << "int:\tnan" << std::endl;
+		std::cout << "int:\timpossible" << std::endl;
 		return (2);
 	}
 	return (0);
