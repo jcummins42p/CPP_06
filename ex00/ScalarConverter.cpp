@@ -6,7 +6,7 @@
 /*   By: jcummins <jcummins@student.42prague.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:43:14 by jcummins          #+#    #+#             */
-/*   Updated: 2024/11/28 12:42:41 by jcummins         ###   ########.fr       */
+/*   Updated: 2024/11/28 12:48:45 by jcummins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,7 @@ int ScalarConverter::convert( const std::string input ) {
 		case 1:
 			if (isdigit(input[0]))
 				return (multiCharHandle( input ));
+			std::cout << "Type:\tchar literal" << std::endl;
 			return (handleCharConversions( input[0] ));
 		case 3:
 			if (!handleCharLiteral(input))
